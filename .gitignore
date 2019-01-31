@@ -200,3 +200,10 @@ cmake/cmake-build-debug/
 # IntelliJ
 .idea
 *.iml
+
+buck-out
+.buckd
+buckaroo
+buckaroo_macros.bzl
+.buckconfig.d
+.buckconfig.local
