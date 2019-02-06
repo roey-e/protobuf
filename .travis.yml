@@ -20,7 +20,7 @@ os:
   - osx
 
 env:
-  - BUCKAROO_VERSION=buckaroo-redux-alpha-12
+  - BUCKAROO_VERSION=v2.0.0
 
 osx_image: xcode9.3
 
@@ -28,6 +28,6 @@ before_install:
   - ./travis/before-install-$TRAVIS_OS_NAME.sh
 
 script:
-  - ./buckaroo-client install
-  - buck build -c ui.superconsole=DISABLED //:protobuf
-  - buck run -c ui.superconsole=DISABLED //:protoc
+  - ./bin/buckaroo install
+  - ./bin/buck build -c ui.superconsole=DISABLED //:protobuf
+  - ./bin/buck run -c ui.superconsole=DISABLED //:protoc
