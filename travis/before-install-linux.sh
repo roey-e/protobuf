@@ -7,12 +7,12 @@ c++ --version
 g++ --version
 gcc --version
 
-sudo apt-get install -y equivs openjdk-8-jdk
+mkdir -p bin
 
-wget -O buck.deb https://github.com/facebook/buck/releases/download/v2018.10.29.01/buck.2018.10.29.01_all.deb
-sudo dpkg -i buck.deb
-buck --version
+wget -c https://github.com/njlr/buck-warp/releases/download/v0.2.0/buck-2019.01.10.01-linux -O bin/buck
+chmod +x ./bin/buck
+./bin/buck --version
 
-wget https://github.com/LoopPerfect/buckaroo/releases/download/$BUCKAROO_VERSION/buckaroo-linux -O buckaroo-client
-chmod +x ./buckaroo-client
-./buckaroo-client version
+wget -c https://github.com/LoopPerfect/buckaroo/releases/download/$BUCKAROO_VERSION/buckaroo-linux -O bin/buckaroo
+chmod +x ./bin/buckaroo
+./bin/buckaroo version
