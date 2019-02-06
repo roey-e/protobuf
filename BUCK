@@ -14,19 +14,27 @@ linux_linker_flags = [
   '-lpthread',
 ]
 
+genrule(
+  name = 'config-h',
+  out = 'config.h',
+  cmd = 'touch $OUT',
+)
+
 cxx_library(
   name = 'protobuf',
-  header_namespace = 'google',
+  header_namespace = '',
   exported_headers = subdir_glob([
-    ('src/google', 'protobuf/**/*.h'),
-    ('src/google', 'protobuf/**/*.inc'),
+    ('src', 'google/protobuf/**/*.h'),
+    ('src', 'google/protobuf/**/*.inc'),
   ], exclude = glob([
-    'src/google/protobuf/testing/*.h',
     'src/google/protobuf/**/*_test*.h',
     'src/google/protobuf/**/*test_*.h',
     'src/google/protobuf/**/*unittest*.h',
     'src/google/protobuf/**/*mock*.h',
   ])),
+  headers = {
+    'config.h': ':config-h',
+  },
   srcs = glob([
     'src/google/protobuf/**/*.cc',
   ], exclude = glob([
@@ -55,9 +63,6 @@ cxx_binary(
   name = 'protoc',
   srcs = [
     'src/google/protobuf/compiler/main.cc',
-  ],
-  preprocessor_flags = [
-    '-DOPENSOURCE_PROTOBUF_CPP_BOOTSTRAP=1',
   ],
   platform_preprocessor_flags = [
     ('^macos.*', [ '-Wno-expansion-to-defined' ]),

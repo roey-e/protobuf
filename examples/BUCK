@@ -1,0 +1,50 @@
+genrule(
+  name = 'addressbook-cpp',
+  out = 'out',
+  srcs = [
+    'addressbook.proto',
+  ],
+  cmd = 'mkdir -p $OUT && $(exe //:protoc) $SRCDIR/addressbook.proto --proto_path=$SRCDIR --cpp_out=$OUT',
+)
+
+genrule(
+  name = 'addressbook-pb-h',
+  out = 'addressbook.pb.h',
+  cmd = 'cp $(location :addressbook-cpp)/addressbook.pb.h $OUT',
+)
+
+genrule(
+  name = 'addressbook-pb-cc',
+  out = 'addressbook.pb.cc',
+  cmd = 'cp $(location :addressbook-cpp)/addressbook.pb.cc $OUT',
+)
+
+cxx_binary(
+  name = 'add-person',
+  header_namespace = '',
+  headers = {
+    'addressbook.pb.h': ':addressbook-pb-h',
+  },
+  srcs = [
+    'add_person.cc',
+    ':addressbook-pb-cc',
+  ],
+  deps = [
+    '//:protobuf',
+  ],
+)
+
+cxx_binary(
+  name = 'list-people',
+  header_namespace = '',
+  headers = {
+    'addressbook.pb.h': ':addressbook-pb-h',
+  },
+  srcs = [
+    'list_people.cc',
+    ':addressbook-pb-cc',
+  ],
+  deps = [
+    '//:protobuf',
+  ],
+)
