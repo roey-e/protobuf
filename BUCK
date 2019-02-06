@@ -10,6 +10,12 @@ linux_preprocessor_flags = [
   '-DHAVE_PTHREAD=1',
 ]
 
+genrule(
+  name = 'config-h',
+  out = 'config.h',
+  cmd = 'touch $OUT',
+)
+
 prebuilt_cxx_library(
   name = 'pthread',
   header_only = True,
@@ -20,17 +26,19 @@ prebuilt_cxx_library(
 
 cxx_library(
   name = 'protobuf',
-  header_namespace = 'google',
+  header_namespace = '',
   exported_headers = subdir_glob([
-    ('src/google', 'protobuf/**/*.h'),
-    ('src/google', 'protobuf/**/*.inc'),
+    ('src', 'google/protobuf/**/*.h'),
+    ('src', 'google/protobuf/**/*.inc'),
   ], exclude = glob([
-    'src/google/protobuf/testing/*.h',
     'src/google/protobuf/**/*_test*.h',
     'src/google/protobuf/**/*test_*.h',
     'src/google/protobuf/**/*unittest*.h',
     'src/google/protobuf/**/*mock*.h',
   ])),
+  headers = {
+    'config.h': ':config-h',
+  },
   srcs = glob([
     'src/google/protobuf/**/*.cc',
   ], exclude = glob([
