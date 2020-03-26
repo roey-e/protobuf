@@ -1,0 +1,18 @@
+python_library(
+  name = 'python_protobuf',
+  srcs = glob([
+    "google/__init__.py",
+    "google/protobuf/*.py",
+    "google/protobuf/**/*.py",
+    ],
+    exclude =[
+    "google/protobuf/__init__.py",
+    "google/protobuf/**/__init__.py",
+    "google/protobuf/internal/*_test.py",
+    "google/protobuf/internal/test_util.py",
+    ]),
+    base_module = '',
+    visibility = [
+        'PUBLIC',
+    ],
+)
