@@ -11,7 +11,11 @@ linux_preprocessor_flags = [
 ]
 
 linux_linker_flags = [
-  '-lpthread',
+  '-pthread',
+]
+
+linux_compiler_flags = [
+  '-pthread',
 ]
 
 cxx_library(
@@ -46,6 +50,9 @@ cxx_library(
   platform_linker_flags = [
     ('^linux.*', linux_linker_flags),
   ],
+  platform_compiler_flags = [
+    ('^linux.*', linux_compiler_flags),
+  ],
   visibility = [
     'PUBLIC',
   ],
@@ -63,6 +70,12 @@ cxx_binary(
     ('^macos.*', [ '-Wno-expansion-to-defined' ]),
     ('^linux.*', [ '-Wno-expansion-to-defined' ]),
     ('default', [ '-Wno-expansion-to-defined' ]),
+  ],
+  platform_linker_flags = [
+    ('^linux.*', linux_linker_flags),
+  ],
+  platform_compiler_flags = [
+    ('^linux.*', linux_compiler_flags),
   ],
   deps = [
     ':protobuf',
