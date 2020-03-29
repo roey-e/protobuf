@@ -1,2 +1,9 @@
-manifest = "221d83da411a59593cfe8d9c499d1e29edd4816abac03ac8ca626d711a4042d1"
+manifest = "30cec6f7bb49a02a7546be43fc7bf54b058f8a937d84edfc6e4d9d04649eb2a4"
 
+[[dependency]]
+package = "github.com/roey-e/six"
+target = "//:six"
+
+[lock."github.com/roey-e/six"]
+versions = [ "branch=master" ]
+revision = "549fbaea0b058d7d10a2eec27ce08b79c0808a97"

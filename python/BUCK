@@ -1,5 +1,9 @@
+load('//:buckaroo_macros.bzl', 'buckaroo_cell')
 load('//:buck_protobuf.bzl', 'WELL_KNOWN_PROTO_MAP')
 load('//:buck_utils.bzl', 'extract')
+
+six_cell = buckaroo_cell('github.com/roey-e/six')
+six = six_cell + '//:six'
 
 genrule(
   name = 'python_well_known_protos',
@@ -34,7 +38,7 @@ python_library(
     "google/protobuf/internal/test_util.py",
     ]),
     base_module = '',
-    deps = [':python_well_known_protos_lib'],
+    deps = [':python_well_known_protos_lib', six],
     visibility = [
         'PUBLIC',
     ],
