@@ -1,3 +1,34 @@
+def extract(rule, path):
+  name = 'extract-' + (
+    rule.replace('/','-').replace(':','') + '-' +
+    path
+      .replace('/','-')
+      .replace('.','-'))
+    
+  if not native.rule_exists(':'+name):
+    filename = path.split('/')[-1]
+    native.genrule(
+      name = name,
+      out = filename,
+      cmd = 'cp $(location '+rule+')/'+ path +' $OUT')
+    
+  return ':'+name
+
+def extractFolder(rule, path):
+  name = 'extract-folder-' + (
+    rule.replace('/','-').replace(':','') + '-' +
+    path
+      .replace('/','-')
+      .replace('.','-'))
+    
+  if not native.rule_exists(':'+name):
+    native.genrule(
+      name = name,
+      out = 'out',
+      cmd = 'mkdir $OUT && cd $OUT && cp -r $(location '+rule+')/'+ path +'/. .')
+    
+  return ':'+name
+
 """Provides utility macros for working with globs."""
 
 def _paths_join(path, *others):

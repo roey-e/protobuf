@@ -1,4 +1,5 @@
-load('//:subdir_glob.bzl', 'subdir_glob')
+load('//:buck_protobuf.bzl', 'WELL_KNOWN_PROTO_MAP')
+load('//:buck_utils.bzl', 'subdir_glob')
 
 macos_preprocessor_flags = [
   '-Wno-expansion-to-defined',
@@ -17,6 +18,14 @@ linux_linker_flags = [
 linux_compiler_flags = [
   '-pthread',
 ]
+
+filegroup(
+  name = 'well_known_protos',
+  srcs = ['src/' + proto[1][0] for proto in WELL_KNOWN_PROTO_MAP.items()],
+  visibility = [
+    'PUBLIC',
+  ],
+)
 
 cxx_library(
   name = 'protobuf',
