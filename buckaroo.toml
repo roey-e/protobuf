@@ -2,4 +2,4 @@ targets = [ "//:protobuf" ]
 
 [[dependency]]
 package = "github.com/roey-e/six"
-version = "branch=master"
+version = "branch=buck"
