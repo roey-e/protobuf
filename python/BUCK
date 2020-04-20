@@ -5,8 +5,10 @@ load('//:buck_utils.bzl', 'extract')
 six_cell = buckaroo_cell('github.com/roey-e/six')
 six = six_cell + '//:six'
 
+WELL_KNOWN_PROTOS = [proto[0] for proto in WELL_KNOWN_PROTO_MAP.values()]
+
 genrule(
-  name = 'python_well_known_protos',
+  name = 'well_known_protos',
   out = 'out',
   cmd = 'mkdir -p $OUT && '
   + '$(exe //:protoc) '
@@ -16,16 +18,16 @@ genrule(
   + '$(location //:well_known_protos)/src/google/protobuf/compiler/plugin.proto',
 )
 
-PB2_PY_FILES = [proto[1][0].replace('.proto','_pb2.py') for proto in WELL_KNOWN_PROTO_MAP.items()]
+PB2S = [proto.replace('.proto','_pb2.py') for proto in WELL_KNOWN_PROTOS]
 
 python_library(
-  name = 'python_well_known_protos_lib',
-  srcs = {pb2: extract(':python_well_known_protos', pb2) for pb2 in PB2_PY_FILES},
+  name = 'well_known_protos_lib',
+  srcs = {pb2: extract(':well_known_protos', pb2) for pb2 in PB2S},
   base_module = '',
 )
 
 python_library(
-  name = 'python_protobuf',
+  name = 'protobuf',
   srcs = glob([
     "google/__init__.py",
     "google/protobuf/*.py",
@@ -38,7 +40,7 @@ python_library(
     "google/protobuf/internal/test_util.py",
     ]),
     base_module = '',
-    deps = [':python_well_known_protos_lib', six],
+    deps = [':well_known_protos_lib', six],
     visibility = [
         'PUBLIC',
     ],
